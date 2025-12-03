@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interest Calculator</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+    }
+
+    .container {
+        background: #fff;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        text-align: center;
+        position: relative;
+        animation: slideUp 1s ease-out;
+    }
+
+    /* Logo */
+    .logo {
+        width: 80px;
+        margin-bottom: 20px;
+        animation: bounce 2s infinite;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #2575fc;
+    }
+
+    input, select, button {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+        border-color: #2575fc;
+        box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        outline: none;
+    }
+
+    button {
+        background: #2575fc;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background: #6a11cb;
+        transform: scale(1.05);
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e0f7fa;
+        border-left: 5px solid #00acc1;
+        font-size: 18px;
+        border-radius: 8px;
+        animation: fadeIn 1s ease-out;
+    }
+
+    /* Animations */
+    @keyframes slideUp {
+        0% { transform: translateY(50px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-15px); }
+        60% { transform: translateY(-8px); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+</style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Logo -->
+    <img src="images/logo.jpg" alt="Logo" class="logo">
+
+    <h2>Interest Calculator</h2>
+
+    <input type="number" id="principal" placeholder="Principal Amount (₹)">
+    <input type="number" id="rate" placeholder="Interest Rate (%)">
+    <input type="number" id="days" placeholder="Number of Days">
+
+    <select id="type">
+        <option value="annual">Annual Rate (Standard)</option>
+        <option value="flat">Flat Rate for Entire Period</option>
+    </select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="output" class="result" style="display:none;"></div>
+</div>
+
+<script>
+function calculate() {
+    let P = parseFloat(document.getElementById("principal").value);
+    let R = parseFloat(document.getElementById("rate").value);
+    let D = parseFloat(document.getElementById("days").value);
+    let type = document.getElementById("type").value;
+
+    if (isNaN(P) || isNaN(R) || isNaN(D)) {
+        alert("⚠ Please fill all fields correctly!");
+        return;
+    }
+
+    let interest = 0;
+    if (type === "annual") {
+        interest = P * (R / 100) * (D / 365);
+    } else {
+        interest = P * (R / 100);
+    }
+
+    let total = P + interest;
+
+    let output = document.getElementById("output");
+    output.style.display = "block";
+    output.innerHTML = `
+        <b>Interest:</b> ₹${interest.toFixed(2)}<br>
+        <b>Total Amount:</b> ₹${total.toFixed(2)}
+    `;
+}
+</script>
+</body>
+</html>
